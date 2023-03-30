@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:content="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--springmvc配置文件，Controller和其它与web相关的对象-->
+
+    <!--注解驱动-->
+    <mvc:annotation-driven/>
+
+    <!--SpringMVC DispatcherServlet不处理静态资源-->
+    <!--启动默认的Servlet去处理静态资源-->
+    <!--<mvc:default-servlet-handler/>-->
+
+    <!--扫描@Controller-->
+    <content:component-scan base-package="com.chen.crm.settings.web.controller"/>
+    <content:component-scan base-package="com.chen.crm.workbench.web.controller"/>
+
+    <!--防止恶意访问资源 动态资源-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--配置拦截的请求-->
+            <mvc:mapping path="/**"/>
+            <!--配置排除拦截的请求-->
+            <mvc:exclude-mapping path="/settings/user/login.do"/>
+            <!--拦截器类-->
+            <bean class="com.chen.crm.web.interception.LoginInterception"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>
